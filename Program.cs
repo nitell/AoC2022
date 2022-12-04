@@ -1,8 +1,8 @@
 ﻿using AoC2022;
 using System.Text;
 
-Console.WriteLine(Day03A());
-Console.WriteLine(Day03B());
+Console.WriteLine(Day04A());
+Console.WriteLine(Day04B());
 
 static int Day01A()
 {
@@ -38,6 +38,19 @@ static int Day03B()
             var arr = g.ToArray();
             return arr[0].Intersect(arr[1]).Intersect(arr[2]).First();
         }).Select(r => r < 97 ? r - 65 + 27 : r - 96).Sum();
+}
+
+static int Day04A()
+{
+    return File.ReadAllLines("Day04.txt").Select(s => s.Split(',').Select(x => x.Split('-').ToArray()).ToArray())
+        .Select(a => new { Elf1Start = int.Parse(a[0][0]), Elf1End = int.Parse(a[0][1]), Elf2Start = int.Parse(a[1][0]), Elf2End = int.Parse(a[1][1]) })
+        .Where(o => ((o.Elf1Start >= o.Elf2Start) && (o.Elf1End <= o.Elf2End)) || ((o.Elf2Start >= o.Elf1Start) && (o.Elf2End <= o.Elf1End))).Count();
+}
+static int Day04B()
+{
+    return File.ReadAllLines("Day04.txt").Select(s => s.Split(',').Select(x => x.Split('-').ToArray()).ToArray())
+    .Select(a => new { Elf1Start = int.Parse(a[0][0]), Elf1End = int.Parse(a[0][1]), Elf2Start = int.Parse(a[1][0]), Elf2End = int.Parse(a[1][1]) })
+    .Where(o => Enumerable.Range(o.Elf1Start, o.Elf1End - o.Elf1Start + 1).Intersect(Enumerable.Range(o.Elf2Start, o.Elf2End - o.Elf2Start + 1)).Any()).Count();
 }
 
 
